@@ -47,7 +47,7 @@ def index():
 
 @app.route("/livedata")
 def sqldata():
-    res = session.query(Crypto_Table.symbol, Crypto_Table.price, cast(Crypto_Table.crypto_timestamp,DateTime)).all()
+    res = session.query(Crypto_Table.symbol, Crypto_Table.price, cast(Crypto_Table.crypto_timestamp,DateTime)).limit(10).all()
     test = list(np.ravel(res))
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
     #test = list(np.ravel(results))
