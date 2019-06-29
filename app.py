@@ -28,8 +28,8 @@ Crypto_Table = Base.classes.crypto
 session = Session(engine)
 app = Flask(__name__, template_folder="templates")
 
-file = "static/data/historical_data_final.csv"
-historical_df = pd.read_csv(file)
+# file = "static/data/historical_data_final.csv"
+# historical_df = pd.read_csv(file)
 
 currency_list = {
         "XRP" : 1,
@@ -47,12 +47,12 @@ def index():
 
 @app.route("/livedata")
 def sqldata():
-    res = session.query(Crypto_Table).limit(10).all()
+    res = session.query(Crypto_Table.symbol, Crypto_Table.price, cast(Crypto_Table.crypto_timestamp,DateTime)).all()
+    test = list(np.ravel(res))
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
     #test = list(np.ravel(results))
     #return json.dumps(test, default=alchemyencoder)
-    return json.dumps([dict(r) for r in res], default=alchemyencoder)
-    
+    return json.dumps(test, default=alchemyencoder)
     
 '''
 The following routes are for calling the historical data API 
