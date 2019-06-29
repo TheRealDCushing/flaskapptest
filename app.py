@@ -76,7 +76,7 @@ def historical_data(correctedCurrency):
     return jsonify(data)
 @app.route("/livedata/<firstCurrency>/")
 #/<firstCurrency>&<secondCurrency>&<dateTimeInput1>&<dateTimeInput2>")
-def collect_data(firstCurrency=None,dateTimeInput1=None):
+def collect_data(firstCurrency=None):
 
     results = session.query(Crypto_Table.symbol, Crypto_Table.price, cast(Crypto_Table.crypto_timestamp,DateTime))\
     .filter(Crypto_Table.symbol == firstCurrency).\
