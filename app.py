@@ -1,4 +1,4 @@
- from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template
 import json
 import numpy as np
 import pandas as pd
@@ -47,9 +47,12 @@ def index():
 
 @app.route("/livedata")
 def sqldata():
-    s = select([crypto])
-    res = conn.execute(s)
+    res = session.query(Crypto_Table).limit(10).all()
+    # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
+    #test = list(np.ravel(results))
+    #return json.dumps(test, default=alchemyencoder)
     return json.dumps([dict(r) for r in res], default=alchemyencoder)
+    
     
 '''
 The following routes are for calling the historical data API 
