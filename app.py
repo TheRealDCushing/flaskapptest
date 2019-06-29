@@ -26,7 +26,7 @@ Base = automap_base()
 Base.prepare(engine, reflect=True)
 Crypto_Table = Base.classes.crypto
 session = Session(engine)
-app = Flask(__name__, template_folder="templates")
+app = Flask(__name__)
 
 # file = "static/data/historical_data_final.csv"
 # historical_df = pd.read_csv(file)
