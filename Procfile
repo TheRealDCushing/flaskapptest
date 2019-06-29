@@ -1,1 +1,1 @@
-web: gunicorn flask-crypto.app:app
+web: gunicorn app:app
