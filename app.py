@@ -10,7 +10,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 from sqlalchemy import Column, Integer, String, DECIMAL, DateTime, cast, Date
-
+from flask_sqlalchemy import SQLAlchemy
 
 def alchemyencoder(obj):
    if isinstance(obj, datetime.date):
