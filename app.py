@@ -74,6 +74,16 @@ def historical_data(correctedCurrency):
     }
 
     return jsonify(data)
+@app.route("/livedata/<firstCurrency>/")
+#/<firstCurrency>&<secondCurrency>&<dateTimeInput1>&<dateTimeInput2>")
+def collect_data(firstCurrency=None,dateTimeInput1=None):
+
+    results = session.query(Crypto_Table.symbol, Crypto_Table.price, cast(Crypto_Table.crypto_timestamp,DateTime))\
+    .filter(Crypto_Table.symbol == firstCurrency).\
+      all()
+    # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
+    test = list(np.ravel(results))
+    return json.dumps(test, default=alchemyencoder)
 
 
 @app.route("/livedata/<firstCurrency>/<dateTimeInput1>")
