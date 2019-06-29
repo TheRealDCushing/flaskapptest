@@ -79,7 +79,7 @@ def historical_data(correctedCurrency):
 def currency_data(firstCurrency=None):
 
     results = session.query(Crypto_Table.symbol, Crypto_Table.price, cast(Crypto_Table.crypto_timestamp,DateTime))\
-    .filter(Crypto_Table.symbol == firstCurrency).\
+    .filter(Crypto_Table.symbol == firstCurrency).group_by(func.date_format(date_col, '%H:%i')).\
       limit(1000).all()
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
     test = list(np.ravel(results))
