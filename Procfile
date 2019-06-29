@@ -1,1 +1,1 @@
-web: gunicorn bellybuttonflaskapp.app:app
+web: gunicorn flask-crypto.app:app
