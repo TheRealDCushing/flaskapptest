@@ -9,7 +9,7 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
-from sqlalchemy import Column, Integer, String, DECIMAL, DateTime, cast, Date
+from sqlalchemy import Column, Integer, String, DECIMAL, DateTime, cast, Date, extract
 from flask_sqlalchemy import SQLAlchemy
 
 def alchemyencoder(obj):
@@ -93,7 +93,7 @@ def collect_data(firstCurrency=None,dateTimeInput1=None):
     results = session.query(Crypto_Table.symbol, Crypto_Table.price, DATE_TRUNC('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
     .filter(Crypto_Table.symbol == firstCurrency).\
     filter(cast(Crypto_Table.crypto_timestamp, DateTime) == dateTimeInput1).\
-      group_by(Crypto_Table.symbol,Crypto_Table.price,DATE_TRUNC('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
+      group_by(Crypto_Table.symbol,Crypto_Table.price,date_trunc('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
     .limit(1000).all()
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
     test = list(np.ravel(results))
