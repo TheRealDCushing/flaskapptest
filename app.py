@@ -91,7 +91,7 @@ def currency_data(firstCurrency=None):
 def collect_data(firstCurrency=None,dateTimeInput1=None):
 
     results = session.query(Crypto_Table.symbol, Crypto_Table.price, cast(Crypto_Table.crypto_timestamp,DateTime))\
-    .filter(Crypto_Table.symbol == firstCurrency).group_by(func.date_format(crypto_timestamp, '%H:%i')).\
+    .filter(Crypto_Table.symbol == firstCurrency).group_by(func.date_format(crypto_timestamp, '%H:%i:%s')).\
     filter(cast(Crypto_Table.crypto_timestamp, DateTime) == dateTimeInput1).\
     limit(1000).all()
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
