@@ -90,10 +90,10 @@ def currency_data(firstCurrency=None):
 #/<firstCurrency>&<secondCurrency>&<dateTimeInput1>&<dateTimeInput2>")
 def collect_data(firstCurrency=None,dateTimeInput1=None):
 
-    results = session.query(Crypto_Table.symbol, Crypto_Table.price, func.date_trunc('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
+    results = session.query(Crypto_Table.symbol, Crypto_Table.price, extract('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
     .filter(Crypto_Table.symbol == firstCurrency).\
     filter(cast(Crypto_Table.crypto_timestamp, DateTime) == dateTimeInput1).\
-      group_by(Crypto_Table.symbol,Crypto_Table.price,func.date_trunc('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
+      group_by(Crypto_Table.symbol,Crypto_Table.price,extract('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
     .limit(1000).all()
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
     test = list(np.ravel(results))
