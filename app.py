@@ -114,6 +114,14 @@ def stations():
     results = conn.execute("SELECT  symbol,max(price)as price,cast(crypto_timestamp as date) as crypto_date FROM crypto where cast(crypto_timestamp as date)= current_date group by symbol,cast(crypto_timestamp as date) order by crypto_timestamp desc")
     items = [dict(r) for r in results]
     return(json.dumps({'items': items}, default=alchemyencoder))
+@app.route("/api/v1.0/datatest")
+def datatest():
+    conn = engine.connect()
+    results = conn.execute('''SELECT  symbol,max(price)as price,DATE_FORMAT(crypto_timestamp, '%Y-%m-%d %h:%i:00') as crypto_datetime
+    FROM crypto where cast(crypto_timestamp as date)= current_date group by symbol,DATE_FORMAT(crypto_timestamp, '%Y-%m-%d %h:%i:00')
+    order by crypto_timestamp desc''')
+    items = [dict(r) for r in results]
+    return(json.dumps({'items': items}))
 #     items = [dict(r) for r in result]
 #     return(json.dumps({'items': items}, default=alchemyencoder))
 
