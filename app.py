@@ -110,7 +110,7 @@ def collect_data(firstCurrency=None,dateTimeInput1=None):
 def stations():
 
     conn = engine.connect()
-    result = conn.execute("SELECT  symbol,max(price),cast(crypto_timestamp as date) FROM crypto where cast(crypto_timestamp as date)= current_date group by symbol,cast(crypto_timestamp as date) order by crypto_timestamp desc")
+    results = conn.execute("SELECT  symbol,max(price),cast(crypto_timestamp as date) FROM crypto where cast(crypto_timestamp as date)= current_date group by symbol,cast(crypto_timestamp as date) order by crypto_timestamp desc")
     sample_metadata = {}
     for result in results:
         sample_metadata["symbol"] = result[0]
