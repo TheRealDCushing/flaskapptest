@@ -120,8 +120,8 @@ def sqllivedata():
      .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
     .all()
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
-    items = [dict(r) for r in results]
-    return(json.dumps({'items': items}, default=alchemyencoder))
+    livedata = list(np.ravel(results))
+    return jsonify(livedata)
 @app.route("/api/v1.0/datatest")
 def datatest():
     conn = engine.connect()
