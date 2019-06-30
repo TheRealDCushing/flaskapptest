@@ -51,8 +51,10 @@ def sqldata():
     .group_by(Crypto_Table.symbol,cast(Crypto_Table.crypto_timestamp, Date),extract('hour', cast(Crypto_Table.crypto_timestamp, DateTime)), extract('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
     .all()
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
-    test = list(np.ravel(results))
-    return json.dumps({'items': test}, default=alchemyencoder)
+     items = [dict(r) for r in results]
+     return(json.dumps({'items': items}, default=alchemyencoder))
+     #test = list(np.ravel(results))
+#     return json.dumps({'items': test}, default=alchemyencoder)
     
 '''
 The following routes are for calling the historical data API 
