@@ -116,8 +116,8 @@ def stations():
     return(json.dumps({'items': items}, default=alchemyencoder))
 @app.route("/api/v1.0/livedata")
 def sqllivedata():
-    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.strftime("%Y-%m-%d %h:%i:00",Crypto_Table.crypto_timestamp))\
-     .group_by(Crypto_Table.symbol,func.strftime("%Y-%m-%d %h:%i:00",Crypto_Table.crypto_timestamp))\
+    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
+     .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
     .all()
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
     test = list(np.ravel(results))
