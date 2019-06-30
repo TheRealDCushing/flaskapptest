@@ -150,16 +150,13 @@ def collect_data_bycurrenct_date(userSelectedCrypto1=None,userSelectedCrypto2=No
        .filter(cast(Crypto_Table.crypto_timestamp, DateTime) <= userSelectedDateTime2)\
       .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
     .all()
-    live_totals = []
+    totals = []
     for result in results:
-      row = {}
-      row["symbol"] = result[0]
-      row["price"] = float(result[1])
-      row["crytodatetime"] = result[2]
-      live_totals.append(row)
+      t = (result[0], float(result[1]), result[2])
+      totals.append(t)
       #print(live_totals)
   # Return a JSON list of Temperature Observations (tobs) for the previous year.
-    return jsonify({"dataset": live_totals})
+    return jsonify({"dataset":{"data": totals}})
 #     items = [dict(r) for r in result]
 #     return(json.dumps({'items': items}, default=alchemyencoder))
 
