@@ -121,7 +121,7 @@ def sqllivedata():
     .all()
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
     livedata = list(np.ravel(results))
-    return jsonify(livedata)
+    return(jsonify({'items': livedata},default=alchemyencoder))
 @app.route("/api/v1.0/datatest")
 def datatest():
     conn = engine.connect()
