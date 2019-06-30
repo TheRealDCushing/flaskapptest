@@ -142,14 +142,24 @@ def sqllivedata():
 #     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
 #     livedata = list(np.ravel(results))
 #     return(json.dumps({'items': livedata},default=alchemyencoder))
-@app.route("/api/v1.0/datatest")
-def datatest():
-    conn = engine.connect()
-    results = conn.execute('''SELECT  symbol,max(price)as price,DATE_FORMAT(crypto_timestamp, '%Y-%m-%d %h:%i:00') as crypto_datetime
-    FROM crypto where cast(crypto_timestamp as date)= current_date group by symbol,DATE_FORMAT(crypto_timestamp, '%Y-%m-%d %h:%i:00')
-    order by crypto_timestamp desc''')
-    items = [dict(r) for r in results]
-    return(json.dumps({'items': items}))
+@app.route("/livedata/<userSelectedCrypto1>/<userSelectedCrypto2>/<userSelectedDateTime1>/<userSelectedDateTime2>'")
+#/<firstCurrency>&<secondCurrency>&<dateTimeInput1>&<dateTimeInput2>")
+def collect_data_bycurrenct_date(userSelectedCrypto1=None,userSelectedCrypto2=None,userSelectedDateTime1=None,userSelectedDateTime2=None):
+    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
+      .filter(Crypto_Table.symbol == userSelectedCrypto1).filter(cast(Crypto_Table.crypto_timestamp, DateTime) == userSelectedDateTime1)\
+       .filter(Crypto_Table.symbol == userSelectedCrypto2).filter(cast(Crypto_Table.crypto_timestamp, DateTime) == userSelectedDateTime2)\
+      .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
+    .all()
+    live_totals = []
+    for result in results:
+      row = {}
+      row["symbol"] = result[0]
+      row["price"] = float(result[1])
+      row["crytodatetime"] = result[2]
+      live_totals.append(row)
+      #print(live_totals)
+  # Return a JSON list of Temperature Observations (tobs) for the previous year.
+    return jsonify({"dataset": live_totals})
 #     items = [dict(r) for r in result]
 #     return(json.dumps({'items': items}, default=alchemyencoder))
 
