@@ -142,7 +142,7 @@ def sqllivedata():
 #     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
 #     livedata = list(np.ravel(results))
 #     return(json.dumps({'items': livedata},default=alchemyencoder))
-@app.route("/livedata/<userSelectedCrypto1>/<userSelectedCrypto2>/<userSelectedDateTime1>/<userSelectedDateTime2>'")
+@app.route("/livedata/<userSelectedCrypto1>/<userSelectedCrypto2>/<userSelectedDateTime1>/<userSelectedDateTime2>")
 #/<firstCurrency>&<secondCurrency>&<dateTimeInput1>&<dateTimeInput2>")
 def collect_data_bycurrenct_date(userSelectedCrypto1=None,userSelectedCrypto2=None,userSelectedDateTime1=None,userSelectedDateTime2=None):
     results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
