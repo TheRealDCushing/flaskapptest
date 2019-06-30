@@ -47,11 +47,12 @@ def index():
 
 @app.route("/livedata")
 def sqldata():
-    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),cast(Crypto_Table.crypto_timestamp, Date),extract('hour', cast(Crypto_Table.crypto_timestamp, DateTime)), extract('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
-    .group_by(Crypto_Table.symbol,cast(Crypto_Table.crypto_timestamp, Date),extract('hour', cast(Crypto_Table.crypto_timestamp, DateTime)), extract('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
-    .all()
-    test = list(np.ravel(results))
-    return json.dumps(test, default=alchemyencoder)
+    conn = engine.connect()
+    results = conn.execute('''SELECT  symbol,max(price)as price,DATE_FORMAT(crypto_timestamp, "%Y-%m-%d %h:%i:00") as crypto_datetime
+    FROM crypto group by symbol,DATE_FORMAT(crypto_timestamp, "%Y-%m-%d %h:%i:00")
+    order by crypto_timestamp desc''')
+    items = [dict(r) for r in results]
+    return(json.dumps({'items': items}, default=alchemyencoder))
      #test = list(np.ravel(results))
 #     return json.dumps({'items': test}, default=alchemyencoder)
     
