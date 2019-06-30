@@ -126,6 +126,7 @@ def sqllivedata():
       row["price"] = result[1]
       row["crytodatetime"] = result[1]
       live_totals.append(row)
+      print(live_totals)
   # Return a JSON list of Temperature Observations (tobs) for the previous year.
     return(json.dumps(live_totals, default=alchemyencoder))
 #     items = [dict(r) for r in results]
