@@ -50,9 +50,8 @@ def sqldata():
     results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),cast(Crypto_Table.crypto_timestamp, Date),extract('hour', cast(Crypto_Table.crypto_timestamp, DateTime)), extract('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
     .group_by(Crypto_Table.symbol,cast(Crypto_Table.crypto_timestamp, Date),extract('hour', cast(Crypto_Table.crypto_timestamp, DateTime)), extract('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
     .all()
-    # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
-     items = [dict(r) for r in results]
-     return(json.dumps({'items': items}, default=alchemyencoder))
+    items = [dict(r) for r in results]
+    return(json.dumps({'items': items}, default=alchemyencoder))
      #test = list(np.ravel(results))
 #     return json.dumps({'items': test}, default=alchemyencoder)
     
