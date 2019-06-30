@@ -124,7 +124,7 @@ def sqllivedata():
       row = {}
       row["symbol"] = result[0]
       row["price"] = float(result[1])
-      row["crytodatetime"] = result[2].isoformat()
+      row["crytodatetime"] = result[2]
       live_totals.append(row)
       #print(live_totals)
   # Return a JSON list of Temperature Observations (tobs) for the previous year.
