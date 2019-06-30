@@ -114,6 +114,14 @@ def stations():
     results = conn.execute("SELECT  symbol,max(price)as price,cast(crypto_timestamp as date) as crypto_date FROM crypto where cast(crypto_timestamp as date)= current_date group by symbol,cast(crypto_timestamp as date) order by crypto_timestamp desc")
     items = [dict(r) for r in results]
     return(json.dumps({'items': items}, default=alchemyencoder))
+@app.route("/api/v1.0/livedata")
+def sqllivedata():
+    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.strftime("%Y-%m-%d %h:%i:00",Crypto_Table.crypto_timestamp))\
+     .group_by(Crypto_Table.symbol,func.strftime("%Y-%m-%d %h:%i:00",Crypto_Table.crypto_timestamp))\
+    .all()
+    # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
+    test = list(np.ravel(results))
+    return json.dumps(test, default=alchemyencoder)
 @app.route("/api/v1.0/datatest")
 def datatest():
     conn = engine.connect()
