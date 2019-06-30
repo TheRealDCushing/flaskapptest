@@ -116,14 +116,23 @@ def stations():
     return(json.dumps({'items': items}, default=alchemyencoder))
 @app.route("/api/v1.0/livedata")
 def sqllivedata():
-    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price).label("price"),cast(func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"),String).label("cryptodatetime"))\
+    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),cast(func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"),String))\
      .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
     .all()
+    live_totals = []
+    for result in results:
+      row = {}
+      row["symbol"] = result[0]
+      row["price"] = result[1]
+      row["crytodatetime"] = result[1]
+      live_totals.append(row)
+  # Return a JSON list of Temperature Observations (tobs) for the previous year.
+    return jsonify(live_totals)
 #     items = [dict(r) for r in results]
 #     return(json.dumps({'items': items}, default=alchemyencoder))
-    # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
-    livedata = list(np.ravel(results))
-    return(json.dumps({'items': livedata},default=alchemyencoder))
+#     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
+#     livedata = list(np.ravel(results))
+#     return(json.dumps({'items': livedata},default=alchemyencoder))
 @app.route("/api/v1.0/datatest")
 def datatest():
     conn = engine.connect()
