@@ -121,7 +121,7 @@ def stations():
 #     return(json.dumps({'items': items}, default=alchemyencoder))
 
 
-     """Return a list of stations."""
+#"""Return a list of stations."""
     #results = session.query(Crypto_Table).all()
     #print(results)
     # results = 
