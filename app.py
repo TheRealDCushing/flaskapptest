@@ -52,7 +52,7 @@ def sqldata():
     .all()
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
     test = list(np.ravel(results))
-    return json.dumps(test, default=alchemyencoder)
+    return json.dumps({'items': test}, default=alchemyencoder)
     
 '''
 The following routes are for calling the historical data API 
