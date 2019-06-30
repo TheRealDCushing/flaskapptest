@@ -48,9 +48,9 @@ def index():
 @app.route("/livedata")
 def sqldata():
     conn = engine.connect()
-    results = conn.execute('''SELECT  symbol,max(price)as price,DATE_FORMAT(crypto_timestamp, "%Y-%m-%d %h:%i:00") as crypto_datetime
-    FROM crypto group by symbol,DATE_FORMAT(crypto_timestamp, "%Y-%m-%d %h:%i:00")
-    order by crypto_timestamp desc''')
+    results = conn.execute("SELECT  symbol,max(price)as price,DATE_FORMAT(crypto_timestamp, "%Y-%m-%d %h:%i:00") as crypto_datetime"
+    "FROM crypto group by symbol,DATE_FORMAT(crypto_timestamp, "%Y-%m-%d %h:%i:00")"
+    "order by crypto_timestamp desc")
     items = [dict(r) for r in results]
     return(json.dumps({'items': items}, default=alchemyencoder))
      #test = list(np.ravel(results))
