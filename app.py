@@ -123,12 +123,12 @@ def sqllivedata():
     for result in results:
       row = {}
       row["symbol"] = result[0]
-      row["price"] = result[1]
-      row["crytodatetime"] = result[1]
+      row["price"] = float(result[1])
+      row["crytodatetime"] = result[2].isoformat()
       live_totals.append(row)
       #print(live_totals)
   # Return a JSON list of Temperature Observations (tobs) for the previous year.
-    return(jsonify(live_totals, default=alchemyencoder))
+    return jsonify(live_totals)
 #     items = [dict(r) for r in results]
 #     return(json.dumps({'items': items}, default=alchemyencoder))
 #     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
