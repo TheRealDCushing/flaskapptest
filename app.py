@@ -52,6 +52,10 @@ def sqldata():
     .all()
     totals = []
     for result in results:
+      row = []
+      row[0] = result[0]
+      row[1] = float(result[1])
+      row[1] = result[2]
       totals.append(result)
       #print(live_totals)
   # Return a JSON list of Temperature Observations (tobs) for the previous year.
