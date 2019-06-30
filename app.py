@@ -109,7 +109,7 @@ def collect_data(firstCurrency=None,dateTimeInput1=None):
 @app.route("/api/v1.0/cryptosies")
 def stations():
     conn = engine.connect()
-    results = conn.execute("SELECT  symbol,max(price),cast(crypto_timestamp as date) FROM crypto where cast(crypto_timestamp as date)= current_date group by symbol,cast(crypto_timestamp as date) order by crypto_timestamp desc")
+    results = conn.execute("SELECT  symbol,max(price)as price,cast(crypto_timestamp as date) as crypto_date FROM crypto where cast(crypto_timestamp as date)= current_date group by symbol,cast(crypto_timestamp as date) order by crypto_timestamp desc")
     items = [dict(r) for r in results]
     return(json.dumps({'items': items}, default=alchemyencoder))
 #     items = [dict(r) for r in result]
