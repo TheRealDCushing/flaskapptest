@@ -46,17 +46,15 @@ def index():
     return "it works!!!!!"
 
 @app.route("/livedata")
+# j = json.dumps(rowarray_list)
 def sqldata():
     results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),cast(Crypto_Table.crypto_timestamp, Date),extract('hour', cast(Crypto_Table.crypto_timestamp, DateTime)), extract('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
      .group_by(Crypto_Table.symbol,cast(Crypto_Table.crypto_timestamp, Date),extract('hour', cast(Crypto_Table.crypto_timestamp, DateTime)), extract('minute', cast(Crypto_Table.crypto_timestamp, DateTime)))\
     .all()
     totals = []
     for result in results:
-      row = []
-      row[0] = result[0]
-      row[1] = float(result[1])
-      row[1] = result[2]
-      totals.append(result)
+      t = (result[0], float(result[1]), result[2])
+      totals.append(t)
       #print(live_totals)
   # Return a JSON list of Temperature Observations (tobs) for the previous year.
     return jsonify({"dataset": totals})
