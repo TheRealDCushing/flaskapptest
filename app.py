@@ -142,6 +142,20 @@ def sqllivedata():
 #     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
 #     livedata = list(np.ravel(results))
 #     return(json.dumps({'items': livedata},default=alchemyencoder))
+@app.route("/livedata/<userSelectedCrypto1>/<userSelectedCrypto2>/<userSelectedDateTime1>")
+#/<firstCurrency>&<secondCurrency>&<dateTimeInput1>&<dateTimeInput2>")
+def collect_data_bycurrency_datetime(userSelectedCrypto1=None,userSelectedCrypto2=None,userSelectedDateTime1=None,userSelectedDateTime2=None):
+    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
+      .filter(Crypto_Table.symbol.in_([userSelectedCrypto1,userSelectedCrypto2])).filter(cast(Crypto_Table.crypto_timestamp, DateTime) >= userSelectedDateTime1)\
+      .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
+    .all()
+    totals = []
+    for result in results:
+      t = (result[0], float(result[1]), result[2])
+      totals.append(t)
+      #print(live_totals)
+  # Return a JSON list of Temperature Observations (tobs) for the previous year.
+    return jsonify({"dataset":{"data": totals}})
 @app.route("/livedata/<userSelectedCrypto1>/<userSelectedCrypto2>/<userSelectedDateTime1>/<userSelectedDateTime2>")
 #/<firstCurrency>&<secondCurrency>&<dateTimeInput1>&<dateTimeInput2>")
 def collect_data_bycurrenct_date(userSelectedCrypto1=None,userSelectedCrypto2=None,userSelectedDateTime1=None,userSelectedDateTime2=None):
