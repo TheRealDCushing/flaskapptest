@@ -110,13 +110,8 @@ def collect_data(firstCurrency=None,dateTimeInput1=None):
 def stations():
     conn = engine.connect()
     results = conn.execute("SELECT  symbol,max(price),cast(crypto_timestamp as date) FROM crypto where cast(crypto_timestamp as date)= current_date group by symbol,cast(crypto_timestamp as date) order by crypto_timestamp desc")
-    items = {}
-    for result in results:
-        items["symbol"] = result[0]
-        items["price"] = result[1]
-        items["CryptoDate"] = result[2]
-   return jsonify(items, default=alchemyencoder) 
-   #return(json.dumps({'items': items}, default=alchemyencoder))
+    items = [dict(r) for r in result]
+    return(json.dumps({'items': items}, default=alchemyencoder))
 #     items = [dict(r) for r in result]
 #     return(json.dumps({'items': items}, default=alchemyencoder))
 
