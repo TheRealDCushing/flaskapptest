@@ -115,7 +115,8 @@ def stations():
         items["symbol"] = result[0]
         items["price"] = result[1]
         items["CryptoDate"] = result[2]
-    return(json.dumps({'items': items}, default=alchemyencoder))
+   return jsonify(items, default=alchemyencoder) 
+   #return(json.dumps({'items': items}, default=alchemyencoder))
 #     items = [dict(r) for r in result]
 #     return(json.dumps({'items': items}, default=alchemyencoder))
 
