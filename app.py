@@ -57,7 +57,7 @@ def sqldata():
       totals.append(t)
       #print(live_totals)
   # Return a JSON list of Temperature Observations (tobs) for the previous year.
-    return jsonify({"dataset": totals})
+    return jsonify({"dataset":{"data": totals}})
     # filter(cast(Crypto_Table.crypto_timestamp, Timestamp) <= dateTimeInput2).distinct().all()
 #     test = list(np.ravel(results))
 #     return json.dumps(test, default=alchemyencoder)
