@@ -119,7 +119,7 @@ def collect_data(firstCurrency=None,dateTimeInput1=None):
 @app.route("/api/v1.0/cryptosies")
 def stations():
     conn = engine.connect()
-    results = conn.execute("SELECT  symbol,avg(price)as  price,max(crypto_timestamp) as crypto_timestamp FROM crypto  group by symbol order by symbol desc")
+    results = conn.execute("SELECT  symbol,price,max(crypto_timestamp) as crypto_timestamp FROM crypto  group by symbol,price order by crypto_timestamp desc limit 6")
 #     results = session.query(Crypto_Table.symbol, Crypto_Table.price,func.max(func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%dT%h:%i:00")))\
 #      .group_by(Crypto_Table.symbol)\
 #     .all()
