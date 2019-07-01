@@ -124,8 +124,8 @@ def stations():
     return(json.dumps({'items': items}, default=alchemyencoder))
 @app.route("/api/v1.0/livedata")
 def sqllivedata():
-    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%M:00"))\
-     .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%M:00"))\
+    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%i:00"))\
+     .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%i:00"))\
     .all()
     live_totals = []
     for result in results:
@@ -145,9 +145,9 @@ def sqllivedata():
 @app.route("/livedata/<userSelectedCrypto1>/<userSelectedCrypto2>/<userSelectedDateTime1>")
 #/<firstCurrency>&<secondCurrency>&<dateTimeInput1>&<dateTimeInput2>")
 def collect_data_bycurrency_datetime(userSelectedCrypto1=None,userSelectedCrypto2=None,userSelectedDateTime1=None):
-    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%M:00"))\
-      .filter(Crypto_Table.symbol.in_([userSelectedCrypto1,userSelectedCrypto2])).filter(Crypto_Table.crypto_timestamp >= func.date_format(userSelectedDateTime1,"%Y-%m-%d %H:%M:00"))\
-      .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%M:00"))\
+    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%i:00"))\
+      .filter(Crypto_Table.symbol.in_([userSelectedCrypto1,userSelectedCrypto2])).filter(Crypto_Table.crypto_timestamp >= func.date_format(userSelectedDateTime1,"%Y-%m-%d %H:%i:00"))\
+      .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%i:00"))\
     .all()
     totals = []
     for result in results:
@@ -159,10 +159,10 @@ def collect_data_bycurrency_datetime(userSelectedCrypto1=None,userSelectedCrypto
 @app.route("/livedata/<userSelectedCrypto1>/<userSelectedCrypto2>/<userSelectedDateTime1>/<userSelectedDateTime2>")
 #/<firstCurrency>&<secondCurrency>&<dateTimeInput1>&<dateTimeInput2>")
 def collect_data_bycurrenct_date(userSelectedCrypto1=None,userSelectedCrypto2=None,userSelectedDateTime1=None,userSelectedDateTime2=None):
-    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%M:00"))\
-      .filter(Crypto_Table.symbol.in_([userSelectedCrypto1,userSelectedCrypto2])).filter(Crypto_Table.crypto_timestamp >= func.date_format(userSelectedDateTime1,"%Y-%m-%d %H:%M:00"))\
-       .filter(Crypto_Table.crypto_timestamp <= func.date_format(userSelectedDateTime2,"%Y-%m-%d %H:%M:00"))\
-      .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%M:00"))\
+    results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%i:00"))\
+      .filter(Crypto_Table.symbol.in_([userSelectedCrypto1,userSelectedCrypto2])).filter(Crypto_Table.crypto_timestamp >= func.date_format(userSelectedDateTime1,"%Y-%m-%d %H:%i:00"))\
+       .filter(Crypto_Table.crypto_timestamp <= func.date_format(userSelectedDateTime2,"%Y-%m-%d %H:%i:00"))\
+      .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %H:%i:00"))\
     .all()
     totals = []
     for result in results:
