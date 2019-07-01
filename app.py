@@ -146,7 +146,7 @@ def sqllivedata():
 #/<firstCurrency>&<secondCurrency>&<dateTimeInput1>&<dateTimeInput2>")
 def collect_data_bycurrency_datetime(userSelectedCrypto1=None,userSelectedCrypto2=None,userSelectedDateTime1=None):
     results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
-      .filter(Crypto_Table.symbol.in_([userSelectedCrypto1,userSelectedCrypto2])).filter(cast(Crypto_Table.crypto_timestamp, DateTime) >= func.date_format(userSelectedDateTime1,"%Y-%m-%d %h:%i:00"))\
+      .filter(Crypto_Table.symbol.in_([userSelectedCrypto1,userSelectedCrypto2])).filter(Crypto_Table.crypto_timestamp) >= func.date_format(userSelectedDateTime1,"%Y-%m-%d %h:%i:00"))\
       .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
     .all()
     totals = []
@@ -160,8 +160,8 @@ def collect_data_bycurrency_datetime(userSelectedCrypto1=None,userSelectedCrypto
 #/<firstCurrency>&<secondCurrency>&<dateTimeInput1>&<dateTimeInput2>")
 def collect_data_bycurrenct_date(userSelectedCrypto1=None,userSelectedCrypto2=None,userSelectedDateTime1=None,userSelectedDateTime2=None):
     results = session.query(Crypto_Table.symbol, func.max(Crypto_Table.price),func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
-      .filter(Crypto_Table.symbol.in_([userSelectedCrypto1,userSelectedCrypto2])).filter(cast(Crypto_Table.crypto_timestamp, DateTime) >= func.date_format(userSelectedDateTime1,"%Y-%m-%d %h:%i:00"))\
-       .filter(cast(Crypto_Table.crypto_timestamp, DateTime) <= func.date_format(userSelectedDateTime2,"%Y-%m-%d %h:%i:00"))\
+      .filter(Crypto_Table.symbol.in_([userSelectedCrypto1,userSelectedCrypto2])).filter(Crypto_Table.crypto_timestamp) >= func.date_format(userSelectedDateTime1,"%Y-%m-%d %h:%i:00"))\
+       .filter(Crypto_Table.crypto_timestamp) <= func.date_format(userSelectedDateTime2,"%Y-%m-%d %h:%i:00"))\
       .group_by(Crypto_Table.symbol,func.date_format(Crypto_Table.crypto_timestamp,"%Y-%m-%d %h:%i:00"))\
     .all()
     totals = []
